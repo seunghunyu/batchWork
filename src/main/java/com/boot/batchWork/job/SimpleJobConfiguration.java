@@ -28,8 +28,11 @@ public class SimpleJobConfiguration {
 
     @Bean
     public Job simpleJob(){
-            return jobBuilderFactory.get("simpleJob").start(simpleStep1()).build(); //simpleJob 이란 이름의 BatchJob 생성
-//        return jobBuilderFactory.get("simpleJob").start(simpleStep2(null)).build(); //simpleJob 이란 이름의 BatchJob 생성
+//            return jobBuilderFactory.get("simpleJob").start(simpleStep1()).build(); //simpleJob 이란 이름의 BatchJob 생성
+        return jobBuilderFactory.get("simpleJob")
+                .start(simpleStep2(null))
+                .next(simpleStep3(null))
+                .build(); //simpleJob 이란 이름의 BatchJob 생성
     }
 
     @Bean
@@ -41,21 +44,41 @@ public class SimpleJobConfiguration {
         })).build();
     }
 
-//    @Bean
-//    @JobScope
-//    public Step simpleStep2(@Value("#{jobParameters[requestData]}") String requestDate) {
-//        //Job Parameter 는 Spring Batch가 실행 될 떄 외부에서 받을 수 있는 파라미터
-//        // 특정 날짜를 넘기면 해당 데이터로 조회/가공/입력등의 작업을 할 수 있다.
-//        /**  BATCH_JOB_INSTANCE 테이블에 파라미터 값만 바꾸어서 계속해서 실행시켜주면 새로운 JobInstance가 생김
-//         *   같은 Job 중복되는 파라미터로 실행시에 생성 안됨 (JobInstanceAlreadyCompleteException)
-//         */
-//
-//        return stepBuilderFactory.get("simpleStep2").tasklet(((contribution, chunkContext) -> {
-//            log.info(">>>>>This is step2");
-//            log.info(">>>>>requestDate = {}", requestDate);
-//            return RepeatStatus.FINISHED;
-//        })).build();
-//    }
+    @Bean
+    @JobScope
+    public Step simpleStep2(@Value("#{jobParameters[requestData]}") String requestDate) {
+        //Job Parameter 는 Spring Batch가 실행 될 떄 외부에서 받을 수 있는 파라미터
+        // 특정 날짜를 넘기면 해당 데이터로 조회/가공/입력등의 작업을 할 수 있다.
+        /**  BATCH_JOB_INSTANCE 테이블에 파라미터 값만 바꾸어서 계속해서 실행시켜주면 새로운 JobInstance가 생김
+         *   같은 Job 중복되는 파라미터로 실행시에 생성 안됨 (JobInstanceAlreadyCompleteException)
+         *   친절하게 방법도 뱉어줌
+         *   A job instance already exists and is complete for parameters={requestData=20230815}.
+         *   If you want to run this job again, change the parameters.
+         */
+
+        return stepBuilderFactory.get("simpleStep2").tasklet(((contribution, chunkContext) -> {
+            log.info(">>>>>This is step2");
+            log.info(">>>>>requestDate = {}", requestDate);
+            return RepeatStatus.FINISHED;
+//          throw new IllegalArgumentException("Step2에서 실패");
+            /** Exception 발생시 BATCH_JOB_EXECUTION 테이블에 해당 Job의 Status로 FAILED 로 처리
+             *  Exception 주석처리 후 수행시 해당 JOB_INSTANCE_ID인 4로 COMPLETED 상태로 추가
+             *  (물론 상태값이 실패했었기 때문에 파라미터 변경안하고 수행해도 이상없이 추가 된다.)
+             *  SpringBatch는 동일한 Job Parameter로 성공한 기록이 있을때만 재수행이 안된다.
+             *  BATCH_JOB_EXECUTION_PARAMS 테이블 조회시 넘겨줬던 파라미터 정보 확인 가능
+             */
+        })).build();
+    }
+    @Bean
+    @JobScope
+    public Step simpleStep3(@Value("#{jobParameters[requestData]}") String requestDate) {
+
+        return stepBuilderFactory.get("simpleStep3").tasklet(((contribution, chunkContext) -> {
+            log.info(">>>>>This is step3");
+            log.info(">>>>>requestDate = {}", requestDate);
+            return RepeatStatus.FINISHED;
+        })).build();
+    }
 }
 /**
  * Spring Batch는 메타 데이터 테이블들 필요 다음의 내용들을 가지고 있음
