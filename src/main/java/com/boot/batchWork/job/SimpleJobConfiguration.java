@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +29,9 @@ public class SimpleJobConfiguration {
     @Bean
     public Job simpleJob(){
             return jobBuilderFactory.get("simpleJob").start(simpleStep1()).build(); //simpleJob 이란 이름의 BatchJob 생성
+//        return jobBuilderFactory.get("simpleJob").start(simpleStep2(null)).build(); //simpleJob 이란 이름의 BatchJob 생성
     }
+
     @Bean
     public Step simpleStep1() {  //sipmleStep1 이란 BatchStep을 생성
         //Step안에서 수행될 기능들을 명시 , Tasklet은 Step안에서 단일로 수행될 커스텀한 기능들을 선언할때 사용
@@ -36,6 +40,22 @@ public class SimpleJobConfiguration {
             return RepeatStatus.FINISHED;
         })).build();
     }
+
+//    @Bean
+//    @JobScope
+//    public Step simpleStep2(@Value("#{jobParameters[requestData]}") String requestDate) {
+//        //Job Parameter 는 Spring Batch가 실행 될 떄 외부에서 받을 수 있는 파라미터
+//        // 특정 날짜를 넘기면 해당 데이터로 조회/가공/입력등의 작업을 할 수 있다.
+//        /**  BATCH_JOB_INSTANCE 테이블에 파라미터 값만 바꾸어서 계속해서 실행시켜주면 새로운 JobInstance가 생김
+//         *   같은 Job 중복되는 파라미터로 실행시에 생성 안됨 (JobInstanceAlreadyCompleteException)
+//         */
+//
+//        return stepBuilderFactory.get("simpleStep2").tasklet(((contribution, chunkContext) -> {
+//            log.info(">>>>>This is step2");
+//            log.info(">>>>>requestDate = {}", requestDate);
+//            return RepeatStatus.FINISHED;
+//        })).build();
+//    }
 }
 /**
  * Spring Batch는 메타 데이터 테이블들 필요 다음의 내용들을 가지고 있음
