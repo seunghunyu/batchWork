@@ -4,7 +4,7 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 /*
- ¹èÄ¡ ±â´É È°¼ºÈ­
+ ë°°ì¹˜ ê¸°ëŠ¥ í™œì„±í™”
  */
 @EnableBatchProcessing
 @SpringBootApplication

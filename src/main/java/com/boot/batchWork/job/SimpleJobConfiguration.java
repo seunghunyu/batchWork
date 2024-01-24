@@ -13,31 +13,31 @@ import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
- * Spring Batch¿¡¼­ JobÀº ÇÏ³ªÀÇ ¹èÄ¡ ÀÛ¾÷´ÜÀ§
+ * Spring Batchì—ì„œ Jobì€ í•˜ë‚˜ì˜ ë°°ì¹˜ ìž‘ì—…ë‹¨ìœ„
  * Job -> [Step, Step ,...]
  *     -> {tasklet ,  (Reader, Processor, Writer)}
  *
- *     JobÀº ¿©·¯°³ÀÇ StepÀ¸·Î Á¸Àç StepÀº tasklet °ú Reader¿Í Processor, Writer ¸¦ Æ÷ÇÔ
+ *     Jobì€ ì—¬ëŸ¬ê°œì˜ Stepìœ¼ë¡œ ì¡´ìž¬ Stepì€ tasklet ê³¼ Readerì™€ Processor, Writer ë¥¼ í¬í•¨
  */
 @Slf4j
 @RequiredArgsConstructor
-@Configuration //SpringBatchÀÇ ¸ðµç JobÀº @ConfigurationÀ» µî·ÏÇØ¼­ »ç¿ë
+//@Configuration //SpringBatchì˜ ëª¨ë“  Jobì€ @Configurationì„ ë“±ë¡í•´ì„œ ì‚¬ìš©
 public class SimpleJobConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
     public Job simpleJob(){
-//            return jobBuilderFactory.get("simpleJob").start(simpleStep1()).build(); //simpleJob ÀÌ¶õ ÀÌ¸§ÀÇ BatchJob »ý¼º
+//            return jobBuilderFactory.get("simpleJob").start(simpleStep1()).build(); //simpleJob ì´ëž€ ì´ë¦„ì˜ BatchJob ìƒì„±
         return jobBuilderFactory.get("simpleJob")
                 .start(simpleStep2(null))
                 .next(simpleStep3(null))
-                .build(); //simpleJob ÀÌ¶õ ÀÌ¸§ÀÇ BatchJob »ý¼º
+                .build(); //simpleJob ì´ëž€ ì´ë¦„ì˜ BatchJob ìƒì„±
     }
 
     @Bean
-    public Step simpleStep1() {  //sipmleStep1 ÀÌ¶õ BatchStepÀ» »ý¼º
-        //Step¾È¿¡¼­ ¼öÇàµÉ ±â´ÉµéÀ» ¸í½Ã , TaskletÀº Step¾È¿¡¼­ ´ÜÀÏ·Î ¼öÇàµÉ Ä¿½ºÅÒÇÑ ±â´ÉµéÀ» ¼±¾ðÇÒ¶§ »ç¿ë
+    public Step simpleStep1() {  //sipmleStep1 ì´ëž€ BatchStepì„ ìƒì„±
+        //Stepì•ˆì—ì„œ ìˆ˜í–‰ë  ê¸°ëŠ¥ë“¤ì„ ëª…ì‹œ , Taskletì€ Stepì•ˆì—ì„œ ë‹¨ì¼ë¡œ ìˆ˜í–‰ë  ì»¤ìŠ¤í…€í•œ ê¸°ëŠ¥ë“¤ì„ ì„ ì–¸í• ë•Œ ì‚¬ìš©
         return stepBuilderFactory.get("simpleStep1").tasklet(((contribution, chunkContext) -> {
             log.info(">>>>>This is step1");
             return RepeatStatus.FINISHED;
@@ -47,11 +47,11 @@ public class SimpleJobConfiguration {
     @Bean
     @JobScope
     public Step simpleStep2(@Value("#{jobParameters[requestData]}") String requestDate) {
-        //Job Parameter ´Â Spring Batch°¡ ½ÇÇà µÉ ‹š ¿ÜºÎ¿¡¼­ ¹ÞÀ» ¼ö ÀÖ´Â ÆÄ¶ó¹ÌÅÍ
-        // Æ¯Á¤ ³¯Â¥¸¦ ³Ñ±â¸é ÇØ´ç µ¥ÀÌÅÍ·Î Á¶È¸/°¡°ø/ÀÔ·ÂµîÀÇ ÀÛ¾÷À» ÇÒ ¼ö ÀÖ´Ù.
-        /**  BATCH_JOB_INSTANCE Å×ÀÌºí¿¡ ÆÄ¶ó¹ÌÅÍ °ª¸¸ ¹Ù²Ù¾î¼­ °è¼ÓÇØ¼­ ½ÇÇà½ÃÄÑÁÖ¸é »õ·Î¿î JobInstance°¡ »ý±è
-         *   °°Àº Job Áßº¹µÇ´Â ÆÄ¶ó¹ÌÅÍ·Î ½ÇÇà½Ã¿¡ »ý¼º ¾ÈµÊ (JobInstanceAlreadyCompleteException)
-         *   Ä£ÀýÇÏ°Ô ¹æ¹ýµµ ¹ñ¾îÁÜ
+        //Job Parameter ëŠ” Spring Batchê°€ ì‹¤í–‰ ë  ë–„ ì™¸ë¶€ì—ì„œ ë°›ì„ ìˆ˜ ìžˆëŠ” íŒŒë¼ë¯¸í„°
+        // íŠ¹ì • ë‚ ì§œë¥¼ ë„˜ê¸°ë©´ í•´ë‹¹ ë°ì´í„°ë¡œ ì¡°íšŒ/ê°€ê³µ/ìž…ë ¥ë“±ì˜ ìž‘ì—…ì„ í•  ìˆ˜ ìžˆë‹¤.
+        /**  BATCH_JOB_INSTANCE í…Œì´ë¸”ì— íŒŒë¼ë¯¸í„° ê°’ë§Œ ë°”ê¾¸ì–´ì„œ ê³„ì†í•´ì„œ ì‹¤í–‰ì‹œì¼œì£¼ë©´ ìƒˆë¡œìš´ JobInstanceê°€ ìƒê¹€
+         *   ê°™ì€ Job ì¤‘ë³µë˜ëŠ” íŒŒë¼ë¯¸í„°ë¡œ ì‹¤í–‰ì‹œì— ìƒì„± ì•ˆë¨ (JobInstanceAlreadyCompleteException)
+         *   ì¹œì ˆí•˜ê²Œ ë°©ë²•ë„ ë±‰ì–´ì¤Œ
          *   A job instance already exists and is complete for parameters={requestData=20230815}.
          *   If you want to run this job again, change the parameters.
          */
@@ -60,12 +60,12 @@ public class SimpleJobConfiguration {
             log.info(">>>>>This is step2");
             log.info(">>>>>requestDate = {}", requestDate);
             return RepeatStatus.FINISHED;
-//          throw new IllegalArgumentException("Step2¿¡¼­ ½ÇÆÐ");
-            /** Exception ¹ß»ý½Ã BATCH_JOB_EXECUTION Å×ÀÌºí¿¡ ÇØ´ç JobÀÇ Status·Î FAILED ·Î Ã³¸®
-             *  Exception ÁÖ¼®Ã³¸® ÈÄ ¼öÇà½Ã ÇØ´ç JOB_INSTANCE_IDÀÎ 4·Î COMPLETED »óÅÂ·Î Ãß°¡
-             *  (¹°·Ð »óÅÂ°ªÀÌ ½ÇÆÐÇß¾ú±â ¶§¹®¿¡ ÆÄ¶ó¹ÌÅÍ º¯°æ¾ÈÇÏ°í ¼öÇàÇØµµ ÀÌ»ó¾øÀÌ Ãß°¡ µÈ´Ù.)
-             *  SpringBatch´Â µ¿ÀÏÇÑ Job Parameter·Î ¼º°øÇÑ ±â·ÏÀÌ ÀÖÀ»¶§¸¸ Àç¼öÇàÀÌ ¾ÈµÈ´Ù.
-             *  BATCH_JOB_EXECUTION_PARAMS Å×ÀÌºí Á¶È¸½Ã ³Ñ°ÜÁá´ø ÆÄ¶ó¹ÌÅÍ Á¤º¸ È®ÀÎ °¡´É
+//          throw new IllegalArgumentException("Step2ì—ì„œ ì‹¤íŒ¨");
+            /** Exception ë°œìƒì‹œ BATCH_JOB_EXECUTION í…Œì´ë¸”ì— í•´ë‹¹ Jobì˜ Statusë¡œ FAILED ë¡œ ì²˜ë¦¬
+             *  Exception ì£¼ì„ì²˜ë¦¬ í›„ ìˆ˜í–‰ì‹œ í•´ë‹¹ JOB_INSTANCE_IDì¸ 4ë¡œ COMPLETED ìƒíƒœë¡œ ì¶”ê°€
+             *  (ë¬¼ë¡  ìƒíƒœê°’ì´ ì‹¤íŒ¨í–ˆì—ˆê¸° ë•Œë¬¸ì— íŒŒë¼ë¯¸í„° ë³€ê²½ì•ˆí•˜ê³  ìˆ˜í–‰í•´ë„ ì´ìƒì—†ì´ ì¶”ê°€ ëœë‹¤.)
+             *  SpringBatchëŠ” ë™ì¼í•œ Job Parameterë¡œ ì„±ê³µí•œ ê¸°ë¡ì´ ìžˆì„ë•Œë§Œ ìž¬ìˆ˜í–‰ì´ ì•ˆëœë‹¤.
+             *  BATCH_JOB_EXECUTION_PARAMS í…Œì´ë¸” ì¡°íšŒì‹œ ë„˜ê²¨ì¤¬ë˜ íŒŒë¼ë¯¸í„° ì •ë³´ í™•ì¸ ê°€ëŠ¥
              */
         })).build();
     }
@@ -81,12 +81,12 @@ public class SimpleJobConfiguration {
     }
 }
 /**
- * Spring Batch´Â ¸ÞÅ¸ µ¥ÀÌÅÍ Å×ÀÌºíµé ÇÊ¿ä ´ÙÀ½ÀÇ ³»¿ëµéÀ» °¡Áö°í ÀÖÀ½
+ * Spring BatchëŠ” ë©”íƒ€ ë°ì´í„° í…Œì´ë¸”ë“¤ í•„ìš” ë‹¤ìŒì˜ ë‚´ìš©ë“¤ì„ ê°€ì§€ê³  ìžˆìŒ
  *
- * ÀÌÀü¿¡ ½ÇÇàÇÑ JobÀÌ ¾î¶² °ÍµéÀÌ ÀÖ´ÂÁö
- * ÃÖ±Ù ½ÇÆÐÇÑ Batch Parameter°¡ ¾î¶²°ÍµéÀÌ ÀÖ°í, ¼º°øÇÑ JobÀº ¾î¶²°ÍµéÀÌ ÀÖ´ÂÁö
- * ´Ù½Ã ½ÇÇàÇÑ´Ù¸é ¾îµð¼­ ºÎÅÍ ½ÃÀÛÇÏ¸é µÉÁö
- * ¾î¶² Job¿¡ ¾î¶² StepµéÀÌ ÀÖ¾ú°í, Stepµé Áß ¼º°øÇÑ Step°ú ½ÇÆÐÇÑ StepµéÀº ¾î¶²°ÍµéÀÌ ÀÖ´ÂÁö
- * (h2 »ç¿ë½Ã ¸ÞÅ¸ Å×ÀÌºíµé ÀÚµ¿»ý¼ºÇØÁÖÁö¸¸ ÀÏ¹ÝÀûÀÎ RDB »ç¿ë½Ã »ç¿ëÀÚ°¡ Á÷Á¢ ¸¸µé¾îÁà¾ßÇÔ)
+ * ì´ì „ì— ì‹¤í–‰í•œ Jobì´ ì–´ë–¤ ê²ƒë“¤ì´ ìžˆëŠ”ì§€
+ * ìµœê·¼ ì‹¤íŒ¨í•œ Batch Parameterê°€ ì–´ë–¤ê²ƒë“¤ì´ ìžˆê³ , ì„±ê³µí•œ Jobì€ ì–´ë–¤ê²ƒë“¤ì´ ìžˆëŠ”ì§€
+ * ë‹¤ì‹œ ì‹¤í–‰í•œë‹¤ë©´ ì–´ë””ì„œ ë¶€í„° ì‹œìž‘í•˜ë©´ ë ì§€
+ * ì–´ë–¤ Jobì— ì–´ë–¤ Stepë“¤ì´ ìžˆì—ˆê³ , Stepë“¤ ì¤‘ ì„±ê³µí•œ Stepê³¼ ì‹¤íŒ¨í•œ Stepë“¤ì€ ì–´ë–¤ê²ƒë“¤ì´ ìžˆëŠ”ì§€
+ * (h2 ì‚¬ìš©ì‹œ ë©”íƒ€ í…Œì´ë¸”ë“¤ ìžë™ìƒì„±í•´ì£¼ì§€ë§Œ ì¼ë°˜ì ì¸ RDB ì‚¬ìš©ì‹œ ì‚¬ìš©ìžê°€ ì§ì ‘ ë§Œë“¤ì–´ì¤˜ì•¼í•¨)
  *
  */
