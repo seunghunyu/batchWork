@@ -1,6 +1,6 @@
-package com.boot.batchWork.service;
+package com.boot.batchWork.service.dsdmt;
 
-import com.boot.batchWork.data.MdCustInfoDd;
+import com.boot.batchWork.data.dsdmt.MdCustInfoDd;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Slf4j
 @SpringBootTest
 class MdCustInfoDdServiceTest {
+
     @Autowired
     MdCustInfoDdService mdCustInfoDdService;
 
@@ -26,7 +27,6 @@ class MdCustInfoDdServiceTest {
 //            log.info("custList is empty");
             //System.out.println("custList is empty");
         }
-
 
     }
 }

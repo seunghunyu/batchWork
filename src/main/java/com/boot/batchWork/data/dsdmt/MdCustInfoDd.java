@@ -1,4 +1,4 @@
-package com.boot.batchWork.data;
+package com.boot.batchWork.data.dsdmt;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
