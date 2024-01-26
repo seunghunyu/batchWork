@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RebmDetcInterface extends JpaRepository<RRebmDetcExtTbl, Long> {
+public interface RebmDetcRepository extends JpaRepository<RRebmDetcExtTbl, Long> {
     RRebmDetcExtTbl findByCustId(String custId);
 }

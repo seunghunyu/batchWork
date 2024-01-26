@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.Date;
 @Table(name="R_REBM_DETC_EXT_TBL", schema = "ECUBEEBM")
 public class RRebmDetcExtTbl {
     @Id
-    Date rg_Dtms;
+    Timestamp rg_Dtms;
 
     @Column(name="CUST_ID")
     String custId;

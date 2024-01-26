@@ -1,0 +1,7 @@
+database:
+  brch1:
+    name: CRMDB
+  brch2:
+    name: REBMDB
+  brch3:
+    name: DSDMT

@@ -16,6 +16,12 @@ public class AppConfig {
     @PersistenceContext(unitName = "secondEntityManager")
     private EntityManager secondEntityManager;
 
+    @PersistenceContext(unitName = "thirdEntityManager")
+    private EntityManager thirdEntityManager;
+
+    @PersistenceContext(unitName = "forthEntityManager")
+    private EntityManager forthEntityManager;
+
 //    /* QueryDsl setting */
 //    @Primary // ?
 //    @Bean
