@@ -12,7 +12,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600) //1hour
-public class RedisConfig {
+public class RedisSingleConfig {
     @Value("${spring.redis.host}")
     private String redisHost;
 
