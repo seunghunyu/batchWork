@@ -4,6 +4,7 @@ package com.boot.batchWork.config.redis;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisClusterConfiguration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -18,16 +19,17 @@ import java.util.List;
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600) //1hour
 public class RedisClusterConfig {
 
-    @Value("${spring.redis.cluster.nodes}")
+    @Value("${spring.redis_cluster.cluster.nodes}")
     private List<String> clusterNodes;
 
-
+    @Primary
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration(clusterNodes);
         return new LettuceConnectionFactory(redisClusterConfiguration);
     }
 
+    @Primary
     @Bean
     public StringRedisTemplate  redisClusterTemplate(RedisConnectionFactory redisConnectionFactory) {
         return new StringRedisTemplate(redisConnectionFactory);
