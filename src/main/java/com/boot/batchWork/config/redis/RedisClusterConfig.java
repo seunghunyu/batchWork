@@ -29,9 +29,18 @@ public class RedisClusterConfig {
         return new LettuceConnectionFactory(redisClusterConfiguration);
     }
 
+    @Bean
+    public RedisTemplate<String, Object> redisClusterTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        return redisTemplate;
+    }
+
     @Primary
     @Bean
-    public StringRedisTemplate  redisClusterTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public StringRedisTemplate  stringRedisClusterTemplate(RedisConnectionFactory redisConnectionFactory) {
         return new StringRedisTemplate(redisConnectionFactory);
     }
 
