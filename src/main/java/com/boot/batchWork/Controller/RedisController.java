@@ -82,6 +82,7 @@ public class RedisController {
         String field = "";
         SetOperations<String, String> stringStringSetOperations = stringRedisClusterTemplate.opsForSet();
         HashOperations<String, String, String> stringObjectObjectHashOperations = stringRedisClusterTemplate.opsForHash();
+
         JSONObject retJobj = new JSONObject();
         try{
             log.info("Request CacheName = {}, Field = {}", cacheData.getCacheName(), cacheData.getField());
@@ -89,22 +90,14 @@ public class RedisController {
             field = cacheData.getField();
 
             String data = "";
-//            Cursor<String> cursor = stringStringSetOperations.scan(cache, ScanOptions.scanOptions().match("*").count(3).build());
-            Cursor<Map.Entry<String, String>> cursor2 = stringObjectObjectHashOperations.scan(cache, ScanOptions.scanOptions().match("*").count(3).build());
+            Cursor<Map.Entry<String, String>> cursor = stringObjectObjectHashOperations.scan(cache, ScanOptions.scanOptions().match("*").count(3).build());
 
-            while(cursor2.hasNext()){
-                Map.Entry<String, String> next = cursor2.next();
-                //log.info("key = {}, value = {}", next.getKey(), next.getKey());
+            while(cursor.hasNext()){
+                Map.Entry<String, String> next = cursor.next();
                 retJobj.put(next.getKey(), next.getValue());
-//                data += next.getKey() + "#";
             }
 
             data = retJobj.toJSONString();
-
-//            while(cursor.hasNext()){
-//                log.info("cursor = {}",cursor.next());
-//                data += cursor.next() + "#";
-//            }
 
             if(data == null || data.equals("")){
                 log.info("data is null");
@@ -143,7 +136,7 @@ public class RedisController {
             log.info("Request tableName = {}, Field = {}", cacheData.getTableName(), cacheData.getRealFlowId());
             String findPattKey = cacheData.getTableName() + "#" + cacheData.getRealFlowId();
             String data = "";
-            ScanOptions scanOptions = ScanOptions.scanOptions().match(findPattKey +"*").count(100).build();
+            ScanOptions scanOptions = ScanOptions.scanOptions().match(findPattKey +"*").count(400).build();
 
             Cursor<byte[]> keys = redisClusterTemplate.getConnectionFactory().getConnection().scan(scanOptions);
             int cnt = 1;
