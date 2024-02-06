@@ -1,0 +1,35 @@
+server:
+  port: 8095
+  max-http-header-size: 1000000
+
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: DSDMT
+    passoword: digital1!
+
+  second-datasource:
+    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: ECUBEEBM
+    passoword: digital1!
+
+  third-datasource:
+    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: ECUBE
+    password: digital1!
+
+  forth-datasource:
+    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: ECUBE
+    password: digital1!
+
+  redis-single:
+    host: 192.168.20.57
+    port: 6379
+  redis-cluster:
+    cluster:
+      nodes: 192.168.20.51:6000,192.168.20.52:6000,192.168.20.53:6000
