@@ -4,5 +4,5 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class DbInfo {
-    String dbName;
+    private final String dbName;
 }

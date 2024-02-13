@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /*
  배치 기능 활성화
  */
-@EnableBatchProcessing
+//@EnableBatchProcessing
 @SpringBootApplication
 public class BatchWorkApplication {
 

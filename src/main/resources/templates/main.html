@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
 </head>
 <body>
-    <H1> Main Page </H1>
+
+    <div class="login-wrapper">
+        <h2>Login</h2>
+<!--        <form th:action th:object="${login}" method="post">-->
+        <form action="/login" method="post">
+            <input type="text" name="userId" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <label for="remember-check">
+                <input type="checkbox" id="remember-check" name="userIdSaveYn">아이디 저장하기
+            </label>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <div class="login-wrapper">
+        <h2>Login2</h2>
+<!--            <form th:action th:object="${login2}" method="post">-->
+            <form action="/login2" method="post">
+                <input type="text" name="userId" placeholder="Email">
+                <input type="password" name="password" placeholder="Password">
+                <label for="remember-check">
+                    <input type="checkbox" id="remember-check" name="userIdSaveYn">아이디 저장하기
+                </label>
+                <input type="submit" value="Login">
+            </form>
+    </div>
 </body>
 </html>

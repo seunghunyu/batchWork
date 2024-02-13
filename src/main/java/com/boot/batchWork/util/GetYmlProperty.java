@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Configuration
-@PropertySource(value = {"dbinfo.yml"}, factory = YamlPropertySourceFactory.class)
+@PropertySource(value = "dbinfo.yml", factory = YamlPropertySourceFactory.class)
 @ConfigurationProperties(prefix = "database")
 @Data
 public class GetYmlProperty {

@@ -3,33 +3,96 @@ server:
   max-http-header-size: 1000000
 
 spring:
-  datasource:
-    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
-    driver-class-name: oracle.jdbc.OracleDriver
-    username: DSDMT
-    passoword: digital1!
+  datasource-dsdmt:
+     driver-class-name: oracle.jdbc.OracleDriver
+     url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+     username: DSDMT
+     password: digital1!
 
-  second-datasource:
-    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
-    driver-class-name: oracle.jdbc.OracleDriver
-    username: ECUBEEBM
-    passoword: digital1!
+  datasource-rebm:
+     driver-class-name: oracle.jdbc.OracleDriver
+     url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+     username: ECUBEEBM
+     password: digital1!
 
-  third-datasource:
-    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
-    driver-class-name: oracle.jdbc.OracleDriver
-    username: ECUBE
-    password: digital1!
+  datasource-crm:
+     driver-class-name: oracle.jdbc.OracleDriver
+     url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+     username: ECUBE
+     password: digital1!
 
-  forth-datasource:
-    url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
-    driver-class-name: oracle.jdbc.OracleDriver
-    username: ECUBE
-    password: digital1!
+  datasource-meta:
+     driver-class-name: oracle.jdbc.OracleDriver
+     url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+     username: ECUBE
+     password: digital1!
 
-  redis-single:
+#spring:
+#  datasource:
+#    hikari:
+#      dsdmt:
+##        driver-class-name: oracle.jdbc.driver.OracleDriver
+#        driver-class-name: oracle.jdbc.OracleDriver
+#        url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+##        url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        jdbc-url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+#        username: DSDMT
+#        passoword: digital1!
+#      rebm:
+##        driver-class-name: oracle.jdbc.driver.OracleDriver
+#        driver-class-name: oracle.jdbc.OracleDriver
+#        url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+##        url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        jdbc-url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+#        username: ECUBEEBM
+#        passoword: digital1!
+#
+#      crm:
+##        driver-class-name: oracle.jdbc.driver.OracleDriver
+#        driver-class-name: oracle.jdbc.OracleDriver
+#        url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+##        url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        jdbc-url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+#        username: ECUBE
+#        password: digital1!
+#
+#      meta:
+##        driver-class-name: oracle.jdbc.driver.OracleDriver
+#        driver-class-name: oracle.jdbc.OracleDriver
+#        url: jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+##        url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+##        jdbc-url: jdbc:log4jdbc:oracle:thin:@192.168.20.65:1521:OBZMETA
+#        username: ECUBE
+#        password: digital1!
+  jpa:
+    database: oracle
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#  jpa:
+#    database: oracle
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        format_sql: true
+
+  thymeleaf:
+    cache: false
+
+  devtools:
+    remote:
+      restart:
+        enabled: true
+
+  redis_single:
     host: 192.168.20.57
     port: 6379
-  redis-cluster:
+
+  redis_cluster:
     cluster:
       nodes: 192.168.20.51:6000,192.168.20.52:6000,192.168.20.53:6000
