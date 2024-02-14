@@ -9,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -28,7 +30,7 @@ class UserTeamServiceTest {
 
         Optional<UserTeam> userTeamInfo = userTeamService.findByUserTeamId(userTeamId);
 
-        Assertions.assertThat(userTeamInfo)
+        assertThat(userTeamInfo)
                 .isNotNull();
 
         log.info("userTeamInfo = {}" , userTeamInfo);
@@ -37,11 +39,35 @@ class UserTeamServiceTest {
     @Test
     void findAll() {
 
+        List<UserTeam> all = userTeamService.findAll();
+
+        for(UserTeam team : all){
+            log.info(team.toString());
+        }
+
     }
 
     @Test
     void existsById() {
+        String teamId = "A";
+        String userId = "C123456";
+        UserTeamId userTeamId = new UserTeamId();
 
+        userTeamId.setTeamId(teamId);
+        userTeamId.setUserId(userId);
+
+        assertThat(userTeamService.existsById(userTeamId))
+                .isTrue();
+        log.info(" userTeam exist = {} ",userTeamId.toString());
+
+
+        teamId = "A";
+        userId = "C123456222222222222222222";
+        userTeamId.setTeamId(teamId);
+        userTeamId.setUserId(userId);
+        assertThat(userTeamService.existsById(userTeamId))
+                .isTrue();
+        log.info(" userTeam exist = {} ",userTeamId.toString());
     }
 
     @Test
