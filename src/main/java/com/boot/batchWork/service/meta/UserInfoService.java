@@ -22,12 +22,20 @@ public class UserInfoService {
         return userInfoRepository.findAll();
     }
 
+    public Boolean existsById(String userId){
+        return userInfoRepository.existsById(userId);
+    }
+
     public Boolean existsByUserId(String userId){
         return userInfoRepository.existsByUserId(userId);
     }
 
-    boolean existsByUserId2(String userId){
+    public Boolean existsByUserId2(String userId){
         return userInfoRepository.existsByUserId2(userId);
+    }
+
+    public UserInfo save(UserInfo userInfo){
+        return userInfoRepository.save(userInfo);
     }
 
 

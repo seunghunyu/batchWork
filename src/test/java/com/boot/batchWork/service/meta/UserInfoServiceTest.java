@@ -45,6 +45,21 @@ class UserInfoServiceTest {
 
     @Test
     @DisplayName("User Exists Yn")
+    void existsById(){
+        String userId = "C123456" ;
+        String notUserId = "A000000000";
+
+        Assertions.assertThat(userInfoService.existsById(userId))
+                .isTrue();
+
+//        Assertions.assertThat(userInfoService.existsByUserId(notUserId))
+//                .isTrue();
+
+
+    }
+
+    @Test
+    @DisplayName("User Exists Yn")
     void existsByUserId(){
         String userId = "C123456" ;
         String notUserId = "A000000000";
@@ -64,12 +79,26 @@ class UserInfoServiceTest {
         String userId = "C123456" ;
         String notUserId = "A000000000";
 
-//        Assertions.assertThat(userInfoService.existsByUserId2(userId))
-//                .isTrue();
-
-        Assertions.assertThat(userInfoService.existsByUserId2(notUserId))
+        Assertions.assertThat(userInfoService.existsByUserId2(userId))
                 .isTrue();
 
+//        Assertions.assertThat(userInfoService.existsByUserId2(notUserId))
+//                .isTrue();
+
+    }
+
+    @Test
+    @DisplayName("Save User")
+    void save(){
+        String userId = "C2234423254";
+        String password = "obzcom2";
+        String userIdSaveYn = "N";
+        UserInfo user = UserInfo.createUser(userId, password, userIdSaveYn);
+
+        userInfoService.save(user);
+
+        Assertions.assertThat(userInfoService.existsById(userId))
+                .isTrue();
 
     }
 

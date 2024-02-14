@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
+public interface UserInfoRepository extends JpaRepository<UserInfo, String> {
 
     Optional<UserInfo> findByUserId(String userId);
     List<UserInfo> findAll();
@@ -26,16 +26,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     <S extends UserInfo> S save(S entity);
 
     @Override
-    Optional<UserInfo> findById(Long aLong);
-
-    @Override
-    boolean existsById(Long aLong);
+    boolean existsById(String s);
 
     @Override
     long count();
-
-    @Override
-    void deleteById(Long aLong);
 
     @Override
     void delete(UserInfo entity);
